@@ -1,5 +1,6 @@
 # FPV smart gate
-Smart gate for FPV drone racing, based on Zephyr OS and nrf52840 SoC
+Smart gate for FPV drone racing, based on Zephyr OS and nrf52840 SoC <br>
+For communication between all gates - Bluetooth-mesh technology is used
 
 # Getting started
 
@@ -23,4 +24,4 @@ west update
 At the end of the commands you have every sources you need to start work with.
 
 # How to build
-**need update*
+**todo: need update*

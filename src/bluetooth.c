@@ -21,6 +21,7 @@
 #include "stat_mgmt/stat_mgmt.h"
 #endif
 
+#include "bluetooth_mesh.h"
 
 static struct k_work advertise_work;
 
@@ -90,4 +91,35 @@ void start_smp_bluetooth(void)
 
 	/* Initialize the Bluetooth mcumgr transport. */
 	smp_bt_register();
+}
+
+
+void bluetooth_init(void)
+{
+	register_mgmt();
+
+    bt_addr_le_t bt_addr;
+    bt_id_get(&bt_addr, (uint32_t*)sizeof(bt_addr.a.val));
+    printk("ID: %02X %02X %02X %02X %02X %02X\n", bt_addr.a.val[0],
+        bt_addr.a.val[1], 
+		bt_addr.a.val[2], 
+		bt_addr.a.val[3], 
+		bt_addr.a.val[4],
+        bt_addr.a.val[5]);
+
+    char NAME_NODE[20];
+    sprintf(NAME_NODE, "Smart Gate %02X%02X", bt_addr.a.val[4], bt_addr.a.val[5]);
+    bt_set_name((const char*)NAME_NODE);
+
+    printk("BT name: %s\n", bt_get_name());
+
+    /* Initialize the Bluetooth Subsystem */
+    int err = bt_enable(bluetooth_mesh_init);
+    if (err) {
+        printk("Bluetooth init failed (err %d)\n", err);
+        return;
+    }
+
+    start_smp_bluetooth();
+
 }

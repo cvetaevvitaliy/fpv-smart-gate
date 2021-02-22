@@ -36,7 +36,21 @@ list(APPEND BOARD_ROOT ${APPLICATION_PROJECT_DIR})
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(mesh)
 
-target_sources(app PRIVATE src/main.c src/bluetooth.c)
+
+set(APP_SRC
+    "src/main.c"
+    "src/bluetooth.c"
+    "src/bluetooth_mesh.c"
+    "src/ws2812.c"
+    "src/led.c"
+    )
+
+set(APP_INC
+    "src"
+    )
+
+target_sources(app PRIVATE ${APP_SRC})
+target_include_directories(app PRIVATE ${APP_INC})
 
 if(NODE_ADDR)
     zephyr_compile_definitions(NODE_ADDR=${NODE_ADDR})
