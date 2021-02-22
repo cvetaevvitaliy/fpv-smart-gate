@@ -3,3 +3,18 @@
 cmake-build-*/
 *.DS_Store
 .DS_Store*
+
+.vscode/
+.idea/
+
+# nrf sdk folders & zephyr project
+.west/
+bootloader/
+checks.json
+mbedtls/
+modules/
+nrfxlib/
+nrf/
+test/
+tools/
+zephyr/
