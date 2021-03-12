@@ -98,17 +98,12 @@ void bluetooth_init(void)
 {
 	register_mgmt();
 
-    bt_addr_le_t bt_addr;
-    bt_id_get(&bt_addr, (uint32_t*)sizeof(bt_addr.a.val));
-    printk("ID: %02X %02X %02X %02X %02X %02X\n", bt_addr.a.val[0],
-        bt_addr.a.val[1], 
-		bt_addr.a.val[2], 
-		bt_addr.a.val[3], 
-		bt_addr.a.val[4],
-        bt_addr.a.val[5]);
+
+	uint8_t dev_uid[8] = {0};
+	hwinfo_get_device_id(dev_uid, 8);
 
     char NAME_NODE[20];
-    sprintf(NAME_NODE, "Smart Gate %02X%02X", bt_addr.a.val[4], bt_addr.a.val[5]);
+    sprintf(NAME_NODE, "Smart Gate %02X%02X", dev_uid[3], dev_uid[2]);
     bt_set_name((const char*)NAME_NODE);
 
     printk("BT name: %s\n", bt_get_name());

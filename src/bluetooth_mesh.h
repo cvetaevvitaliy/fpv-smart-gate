@@ -4,6 +4,7 @@
 #include <bluetooth/mesh.h>
 #include <bluetooth/services/bas.h>
 #include <device.h>
+#include <drivers/hwinfo.h>
 
 void bluetooth_mesh_init(int err);
 

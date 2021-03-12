@@ -186,12 +186,12 @@ static const struct bt_mesh_model_op gen_level_op[] = {
 static struct bt_mesh_model root_models[] = {
     BT_MESH_MODEL_CFG_SRV(&cfg_srv),
     BT_MESH_MODEL_HEALTH_SRV(&health_srv, &health_pub),
-    BT_MESH_MODEL(BT_MESH_MODEL_ID_GEN_ONOFF_SRV, gen_onoff_op, &gen_onoff_pub,
-                  NULL),
     BT_MESH_MODEL(BT_MESH_MODEL_ID_GEN_LEVEL_SRV, gen_level_op, &gen_level_pub,
                   NULL),
-    BT_MESH_MODEL(BT_MESH_MODEL_ID_GEN_ONOFF_CLI, gen_onoff_cli_op,
-                  &gen_onoff_pub, NULL),
+    BT_MESH_MODEL(BT_MESH_MODEL_ID_LIGHT_HSL_SRV, gen_onoff_op, &gen_onoff_pub,
+                  NULL),
+    BT_MESH_MODEL(BT_MESH_MODEL_ID_LIGHT_XYL_SRV, gen_onoff_cli_op, &gen_onoff_pub, 
+                NULL),
 };
 
 static struct bt_mesh_elem elements[] = {
@@ -219,10 +219,14 @@ static void prov_reset(void) {
     bt_mesh_prov_enable(BT_MESH_PROV_ADV | BT_MESH_PROV_GATT);
 }
 
-static const uint8_t dev_uuid[16] = { 0xdd, 0xdd };
+// static const uint8_t dev_uuid[16] = { 0xdd, 0xdd };
 
-static const struct bt_mesh_prov prov = {
-    .uuid = dev_uuid,
+static uint8_t dev_uuid[16] = {0};
+
+uint8_t dev_uid[16];
+
+static struct bt_mesh_prov prov = {
+    //.uuid = dev_uuid,
     .output_size = 4,
     .output_actions = BT_MESH_DISPLAY_NUMBER,
     .output_number = output_number,
@@ -239,6 +243,15 @@ void bluetooth_mesh_init(int err)
     }
 
     printk("Bluetooth initialized - Ok\n");
+
+	hwinfo_get_device_id(dev_uuid, 16);
+    memcpy(&dev_uuid[8], &dev_uuid[0], 8);
+	printk("HW_DEV ID: ");
+	for (uint8_t i = 0; i < 16; ++i)
+		printk("0x%02X ",dev_uuid[i]);
+	printk("\n");	
+
+    prov.uuid = dev_uuid;
 
     err = bt_mesh_init(&prov, &comp);
     if (err) {
