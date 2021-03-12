@@ -6,7 +6,7 @@
 
 #include "nrf52-bindings.h"
 
-&arduino_spi { /* MOSI on D11 / P1.13 */
+&spi0 { /* MOSI on D11 / P1.13 */
 	led_strip: ws2812@0 {
 		compatible = "worldsemi,ws2812-spi";
 		label = "WS2812";
@@ -62,8 +62,8 @@
 		label = "DISPLAY";
 		spi-max-frequency = <2000000>; //4000000 //10000000
 		reg = <0>;
-		cmd-data-gpios = <&arduino_header 15 GPIO_ACTIVE_LOW>;	/* D9 */
-		reset-gpios = <&arduino_header 14 GPIO_ACTIVE_LOW>;	/* D8 */
+		cmd-data-gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;	/* p1.11 */
+		reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;	/* P1.10 */
 		width = <240>;
 		height = <240>;
 		x-offset = <0>;
