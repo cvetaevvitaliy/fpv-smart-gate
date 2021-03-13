@@ -4,12 +4,13 @@
 # example cmake command for config and build
 # cmake -DBOARD=nrf52840dk_nrf52840 ..
 # cmake --build cmake-build-debug --target menuconfig
+# set(BOARD nrf52840dk_nrf52840)
+# set(BOARD nrf52840dongle_nrf52840)
 #
 
 cmake_minimum_required(VERSION 3.13.1)
 set(QEMU_EXTRA_FLAGS -s)
-set(BOARD nrf52840dk_nrf52840)
-#set(BOARD nrf52840dongle_nrf52840)
+set(BOARD nrf52840_smart_gate)
 set(CMAKE_BUILD_TYPE DEBUG)
 set(OPTIMIZATION_FLAG -O0)
 set(CONF_FILE "prj-mesh.conf")
@@ -18,6 +19,10 @@ if(BOARD STREQUAL nrf52840dk_nrf52840)
 set(DTC_OVERLAY_FILE "nrf21540dk_nrf52840.overlay")
 elseif(BOARD STREQUAL nrf52840dongle_nrf52840)
 set(DTC_OVERLAY_FILE "nrf52840dongle_nrf52840.overlay")
+elseif(BOARD STREQUAL nrf52840_smart_gate)
+set(DTC_OVERLAY_FILE "nrf52840_smart_gate.overlay")
+set(BOARD_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/boards/arm/nrf52840_smart_gate)
+set(BOARD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/boards/arm/nrf52840_smart_gate)
 endif()
 
 
@@ -38,7 +43,7 @@ get_filename_component(APPLICATION_PROJECT_DIR
 )
 
 # Add this project to list of board roots
-list(APPEND BOARD_ROOT ${APPLICATION_PROJECT_DIR})
+# list(APPEND BOARD_ROOT ${APPLICATION_PROJECT_DIR})
 
 #find_package(Zephyr 2.2.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})

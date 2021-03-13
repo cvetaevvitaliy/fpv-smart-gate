@@ -1,0 +1,30 @@
+/*
+ * nRF52840 SMART GATE board configuration
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "nrf52-bindings.h"
+
+&spi1 { /* MOSI on D11 / P1.13 */
+	led_strip: ws2812@0 {
+		compatible = "worldsemi,ws2812-spi";
+		label = "WS2812";
+
+		/* SPI */
+		reg = <0>; /* ignored, but necessary for SPI bindings */
+		spi-max-frequency = <SPI_FREQ>;
+
+		/* WS2812 */
+		chain-length = <68>; /* arbitrary; change at will */
+		spi-one-frame = <ONE_FRAME>;
+		spi-zero-frame = <ZERO_FRAME>;
+	};
+};
+
+/ {
+	aliases {
+		led-strip = &led_strip;
+	};
+};
+
