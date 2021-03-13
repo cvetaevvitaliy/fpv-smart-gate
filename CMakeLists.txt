@@ -43,7 +43,6 @@ get_filename_component(APPLICATION_PROJECT_DIR
 )
 
 # Add this project to list of board roots
-# list(APPEND BOARD_ROOT ${APPLICATION_PROJECT_DIR})
 
 #find_package(Zephyr 2.2.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
